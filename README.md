@@ -9,6 +9,8 @@ O pipeline segue a arquitetura Medalhão, com as camadas Landing, Bronze, Silver
 
 O cenário reaproveita a loja dos trabalhos anteriores, com cinco tabelas e 32 registros fictícios criados para a atividade. Não foi utilizado dataset externo.
 
+![Fluxograma do pipeline: PostgreSQL no Neon, Landing em CSV, Bronze em Delta, Silver com tratamento e validação e Gold dimensional, coordenados por um Job](docs/assets/fluxograma_pipeline.svg)
+
 ## Etapas do pipeline
 
 1. **Preparação:** criação dos schemas `landing`, `bronze`, `silver` e `gold`, além do volume para armazenar os CSVs.
@@ -52,6 +54,8 @@ Na Gold, foram obtidos:
 Cada linha da tabela fato representa um item de pedido. O valor total dos itens foi de **R$ 690,40**, incluindo pedidos concluídos e em preparação. Esse valor foi conferido com o cálculo realizado na Silver.
 
 A execução completa do Job terminou com sucesso em **2 minutos e 56 segundos**, em 20/10/2026.
+
+![Execução do Job com as cinco tarefas concluídas com sucesso](execucao_job.png)
 
 ## Organização do repositório
 
