@@ -1,0 +1,42 @@
+site_name: Lakehouse da loja
+site_description: Trabalho 3 — Engenharia de Dados
+site_author: Yasmin Bez Fontana
+site_url: https://bfontanayasmin.github.io/trabalhoEngdeDados3/
+repo_url: https://github.com/bfontanayasmin/trabalhoEngdeDados3
+repo_name: trabalhoEngdeDados3
+theme:
+  name: material
+  language: pt
+  font: false
+  features:
+    - navigation.footer
+    - navigation.top
+    - content.code.copy
+    - search.highlight
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Mudar para modo escuro
+    - scheme: slate
+      primary: teal
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Mudar para modo claro
+plugins:
+  - search:
+      lang: pt
+markdown_extensions:
+  - tables
+  - pymdownx.highlight
+  - pymdownx.superfences
+nav:
+  - Visão geral: index.md
+  - Pipeline: pipeline.md
+  - Qualidade dos dados: qualidade.md
+  - Modelo dimensional: gold.md
+  - Execução: execucao.md

@@ -1,0 +1,85 @@
+{
+  "name": "pipeline de dados",
+  "max_concurrent_runs": 1,
+  "tasks": [
+    {
+      "disabled": false,
+      "email_notifications": {},
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/bfontanayasmin@gmail.com/trabalhoEngdeDados3/00_preparar_ambiente",
+        "source": "WORKSPACE"
+      },
+      "run_if": "ALL_SUCCESS",
+      "task_key": "preparar_ambiente",
+      "timeout_seconds": 0,
+      "webhook_notifications": {}
+    },
+    {
+      "depends_on": [
+        {
+          "task_key": "preparar_ambiente"
+        }
+      ],
+      "disabled": false,
+      "email_notifications": {},
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/bfontanayasmin@gmail.com/trabalhoEngdeDados3/01_extrair_neon",
+        "source": "WORKSPACE"
+      },
+      "run_if": "ALL_SUCCESS",
+      "task_key": "extrair_neon",
+      "timeout_seconds": 0,
+      "webhook_notifications": {}
+    },
+    {
+      "depends_on": [
+        {
+          "task_key": "extrair_neon"
+        }
+      ],
+      "disabled": false,
+      "email_notifications": {},
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/bfontanayasmin@gmail.com/trabalhoEngdeDados3/02_landing_para_bronze",
+        "source": "WORKSPACE"
+      },
+      "run_if": "ALL_SUCCESS",
+      "task_key": "landing_para_bronze",
+      "timeout_seconds": 0,
+      "webhook_notifications": {}
+    },
+    {
+      "depends_on": [
+        {
+          "task_key": "landing_para_bronze"
+        }
+      ],
+      "disabled": false,
+      "email_notifications": {},
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/bfontanayasmin@gmail.com/trabalhoEngdeDados3/03_bronze_para_silver",
+        "source": "WORKSPACE"
+      },
+      "run_if": "ALL_SUCCESS",
+      "task_key": "bronze_para_silver",
+      "timeout_seconds": 0,
+      "webhook_notifications": {}
+    },
+    {
+      "depends_on": [
+        {
+          "task_key": "bronze_para_silver"
+        }
+      ],
+      "disabled": false,
+      "email_notifications": {},
+      "notebook_task": {
+        "notebook_path": "/Workspace/Users/bfontanayasmin@gmail.com/trabalhoEngdeDados3/04_silver_para_gold",
+        "source": "WORKSPACE"
+      },
+      "run_if": "ALL_SUCCESS",
+      "task_key": "silver_para_gold",
+      "timeout_seconds": 0
+    }
+  ]
+}
