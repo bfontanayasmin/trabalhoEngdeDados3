@@ -93,6 +93,89 @@ A credencial do Neon é recuperada pelos Secrets, sem ficar escrita no código. 
 
 O pipeline é executado na nuvem e não depende do Docker ou do MinIO utilizados no trabalho anterior.
 
+### Configuração da conexão Neon–Databricks
+
+O notebook de extração acessa diretamente o PostgreSQL no Neon. A URL de conexão é armazenada nos **Secrets do Databricks**, sem ficar escrita no código.
+
+#### 1. Obter a conexão do Neon
+
+No painel do projeto Neon, clique em **Connect** e copie a URL que começa com `postgresql://`.
+
+Copie somente a URL, sem o comando `psql` e sem as aspas, preservando os parâmetros de SSL. Não publique essa URL no GitHub.
+
+#### 2. Instalar a CLI do Databricks
+
+Neste projeto, a configuração foi realizada pelo terminal do **Ubuntu**:
+
+```bash
+sudo apt update
+sudo apt install -y curl unzip
+
+curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh \
+  -o /tmp/instalar-databricks.sh
+
+sudo sh /tmp/instalar-databricks.sh
+
+databricks --version
+```
+
+O Ubuntu foi utilizado apenas para essa configuração. Ele não precisa permanecer aberto durante a execução do pipeline.
+
+#### 3. Autenticar no Workspace
+
+Substitua `URL_DO_SEU_WORKSPACE` pelo endereço do seu Workspace, sem os caminhos da página ou parâmetros após `?`:
+
+```bash
+databricks auth login \
+  --host https://URL_DO_SEU_WORKSPACE \
+  --profile trabalho3
+```
+
+Conclua a autorização pelo navegador.
+
+#### 4. Criar o scope e cadastrar a conexão
+
+Se o scope ainda não existir, crie-o:
+
+```bash
+databricks secrets create-scope loja_neon --profile trabalho3
+```
+
+Cadastre a conexão:
+
+```bash
+databricks secrets put-secret loja_neon connection_url --profile trabalho3
+```
+
+Quando o comando solicitar o valor, cole a URL copiada do Neon.
+
+Confira se a chave foi cadastrada:
+
+```bash
+databricks secrets list-secrets loja_neon --profile trabalho3
+```
+
+A listagem deve mostrar `connection_url`, sem exibir seu conteúdo.
+
+#### 5. Executar a extração
+
+No Databricks, execute primeiro `00_preparar_ambiente` e depois `01_extrair_neon`.
+
+O notebook recupera a conexão com:
+
+```python
+url = dbutils.secrets.get(
+    scope="loja_neon",
+    key="connection_url"
+)
+```
+
+Em seguida, conecta ao Neon e extrai as cinco tabelas para arquivos CSV no volume:
+
+```text
+/Volumes/workspace/landing/dados
+```
+
 ## Documentação
 
 A documentação utiliza **MkDocs Material** e será publicada no GitHub Pages:
